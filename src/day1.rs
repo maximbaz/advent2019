@@ -1,3 +1,4 @@
+use itertools;
 use std::fs;
 
 pub fn part1(input: &str) {
@@ -14,22 +15,15 @@ pub fn part1(input: &str) {
 pub fn part2(input: &str) {
     let contents = fs::read_to_string(input).expect("Error reading the file");
 
-    fn calc(mut mass: f64) -> f64 {
-        let mut total_fuel = 0.0;
-        loop {
-            mass = (mass / 3.0).floor() - 2.0;
-            if mass <= 0.0 {
-                break;
-            }
-            total_fuel += mass;
-        }
-        return total_fuel;
-    }
-
     let total_fuel = contents
         .lines()
         .map(|l| l.parse::<f64>().unwrap())
-        .map(calc)
+        .map(|m| {
+            itertools::iterate(m, |f| (f / 3.0).floor() - 2.0)
+                .skip(1)
+                .take_while(|f| *f >= 0.0)
+                .sum::<f64>()
+        })
         .sum::<f64>();
 
     println!("Day 1, Part 2: Total fuel = {}", total_fuel);
