@@ -17,13 +17,13 @@ fn main() {
 
     match config.part {
         Part::One => match config.day {
-            Day::Day1 => println!("Solution: {}", day1::part1(day1::prepare(&config.input))),
-            Day::Day2 => println!("Solution: {}", day2::part1(day2::prepare(&config.input))),
+            Day::Day1 => println!("Solution: {}", day1::part1(day1::prepare("data/day1.txt"))),
+            Day::Day2 => println!("Solution: {}", day2::part1(day2::prepare("data/day2.txt"))),
             _ => panic!("this day is not solved yet!"),
         },
         Part::Two => match config.day {
-            Day::Day1 => println!("Solution: {}", day1::part2(day1::prepare(&config.input))),
-            Day::Day2 => println!("Solution: {}", day2::part2(day2::prepare(&config.input))),
+            Day::Day1 => println!("Solution: {}", day1::part2(day1::prepare("data/day1.txt"))),
+            Day::Day2 => println!("Solution: {}", day2::part2(day2::prepare("data/day2.txt"))),
             _ => panic!("this day is not solved yet!"),
         },
     };

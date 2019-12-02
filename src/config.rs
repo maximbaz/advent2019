@@ -34,7 +34,6 @@ pub enum Part {
 pub struct Config {
     pub day: Day,
     pub part: Part,
-    pub input: String,
 }
 
 impl Config {
@@ -78,8 +77,6 @@ impl Config {
             _ => return Err("unexpected value for 'part' argument"),
         };
 
-        let input = args[3].clone();
-
-        Ok(Config { day, part, input })
+        Ok(Config { day, part })
     }
 }
