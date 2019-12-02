@@ -5,7 +5,7 @@ fn read_file(file: &str) -> Vec<i64> {
         .expect("Error reading the file")
         .trim()
         .split(",")
-        .map(|s| s.parse().unwrap())
+        .flat_map(str::parse)
         .collect()
 }
 
