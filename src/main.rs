@@ -5,6 +5,7 @@ mod config;
 use config::*;
 
 mod day1;
+mod day2;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -17,10 +18,12 @@ fn main() {
     match config.part {
         Part::One => match config.day {
             Day::Day1 => day1::part1(&config.input),
+            Day::Day2 => day2::part1(&config.input),
             _ => panic!("this day is not solved yet!"),
         },
         Part::Two => match config.day {
             Day::Day1 => day1::part2(&config.input),
+            Day::Day2 => day2::part2(&config.input),
             _ => panic!("this day is not solved yet!"),
         },
     };
