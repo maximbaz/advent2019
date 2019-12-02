@@ -16,8 +16,7 @@ pub fn part1(input: Vec<usize>) -> usize {
 pub fn part2(input: Vec<usize>) -> usize {
     for start1 in 0..99 {
         for start2 in 0..99 {
-            let solution = solve(input.clone(), start1, start2);
-            if solution == 19690720 {
+            if solve(input.clone(), start1, start2) == 19690720 {
                 return 100 * start1 + start2;
             }
         }
