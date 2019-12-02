@@ -1,6 +1,6 @@
 use std::fs;
 
-pub fn input() -> Vec<i64> {
+pub fn input() -> Vec<usize> {
     fs::read_to_string("data/day2.txt")
         .expect("Error reading the file")
         .trim()
@@ -9,11 +9,11 @@ pub fn input() -> Vec<i64> {
         .collect()
 }
 
-pub fn part1(input: Vec<i64>) -> i64 {
+pub fn part1(input: Vec<usize>) -> usize {
     solve(input, 12, 2)
 }
 
-pub fn part2(input: Vec<i64>) -> i64 {
+pub fn part2(input: Vec<usize>) -> usize {
     for start1 in 0..99 {
         for start2 in 0..99 {
             let solution = solve(input.clone(), start1, start2);
@@ -25,16 +25,16 @@ pub fn part2(input: Vec<i64>) -> i64 {
     unreachable!()
 }
 
-fn solve(mut memory: Vec<i64>, start1: i64, start2: i64) -> i64 {
+fn solve(mut memory: Vec<usize>, start1: usize, start2: usize) -> usize {
     memory[1] = start1;
     memory[2] = start2;
 
     let mut pos = 0;
 
     while memory[pos] != 99 {
-        let a = memory[memory[pos + 1] as usize];
-        let b = memory[memory[pos + 2] as usize];
-        let dst = memory[pos + 3] as usize;
+        let a = memory[memory[pos + 1]];
+        let b = memory[memory[pos + 2]];
+        let dst = memory[pos + 3];
         memory[dst] = if memory[pos] == 1 { a + b } else { a * b };
         pos += 4;
     }
