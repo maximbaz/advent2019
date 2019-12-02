@@ -1,7 +1,7 @@
 use std::fs;
 
-pub fn prepare(input: &str) -> Vec<i64> {
-    fs::read_to_string(input)
+pub fn input() -> Vec<i64> {
+    fs::read_to_string("data/day2.txt")
         .expect("Error reading the file")
         .trim()
         .split(",")

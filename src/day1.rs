@@ -1,9 +1,10 @@
 use itertools;
 use std::fs;
 
-pub fn prepare(input: &str) -> Vec<i32> {
-    fs::read_to_string(input)
+pub fn input() -> Vec<i32> {
+    fs::read_to_string("data/day1.txt")
         .expect("Error reading the file")
+        .trim()
         .lines()
         .flat_map(str::parse::<i32>)
         .collect()

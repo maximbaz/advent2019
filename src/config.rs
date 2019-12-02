@@ -38,8 +38,8 @@ pub struct Config {
 
 impl Config {
     pub fn new(args: &[String]) -> Result<Config, &'static str> {
-        if args.len() < 3 {
-            return Err("not enough arguments");
+        if args.len() != 3 {
+            return Err("usage: ./app dayX partX");
         }
 
         let day = match args[1].as_str() {
