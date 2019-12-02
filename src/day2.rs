@@ -1,12 +1,28 @@
 use std::fs;
 
-fn read_file(file: &str) -> Vec<i64> {
-    fs::read_to_string(file)
+pub fn prepare(input: &str) -> Vec<i64> {
+    fs::read_to_string(input)
         .expect("Error reading the file")
         .trim()
         .split(",")
         .flat_map(str::parse)
         .collect()
+}
+
+pub fn part1(input: Vec<i64>) -> i64 {
+    solve(input, 12, 2)
+}
+
+pub fn part2(input: Vec<i64>) -> i64 {
+    for start1 in 0..99 {
+        for start2 in 0..99 {
+            let solution = solve(input.clone(), start1, start2);
+            if solution == 19690720 {
+                return 100 * start1 + start2;
+            }
+        }
+    }
+    unreachable!()
 }
 
 fn solve(mut memory: Vec<i64>, start1: i64, start2: i64) -> i64 {
@@ -26,21 +42,20 @@ fn solve(mut memory: Vec<i64>, start1: i64, start2: i64) -> i64 {
     return memory[0];
 }
 
-pub fn part1(input: &str) {
-    let solution = solve(read_file(input), 12, 2);
-    println!("Day 2, part 1: position 0 contains {}", solution);
-}
+#[cfg(test)]
+mod tests {
+    use super::*;
 
-pub fn part2(input: &str) {
-    let memory = read_file(input);
+    #[test]
+    fn test_solve() {
+        assert_eq!(
+            3500,
+            solve(vec![1, 9, 10, 3, 2, 3, 11, 0, 99, 30, 40, 50], 9, 10)
+        );
 
-    for start1 in 0..99 {
-        for start2 in 0..99 {
-            let solution = solve(memory.clone(), start1, start2);
-            if solution == 19690720 {
-                println!("Day 2, part 2: the answer is {}", 100 * start1 + start2);
-                return;
-            }
-        }
+        assert_eq!(2, solve(vec![1, 0, 0, 0, 99], 0, 0));
+        assert_eq!(2, solve(vec![2, 3, 0, 3, 99], 3, 0));
+        assert_eq!(2, solve(vec![2, 4, 4, 5, 99, 0], 4, 4));
+        assert_eq!(30, solve(vec![1, 1, 1, 4, 99, 5, 6, 0, 99], 1, 1));
     }
 }
