@@ -6,12 +6,12 @@ pub fn input() -> Vec<i32> {
         .expect("Error reading the file")
         .trim()
         .lines()
-        .flat_map(str::parse::<i32>)
+        .flat_map(str::parse)
         .collect()
 }
 
 pub fn part1(input: Vec<i32>) -> i32 {
-    input.iter().map(|f| f / 3 - 2).sum::<i32>()
+    input.iter().map(|f| f / 3 - 2).sum()
 }
 
 pub fn part2(input: Vec<i32>) -> i32 {
@@ -23,7 +23,7 @@ pub fn part2(input: Vec<i32>) -> i32 {
                 .take_while(|f| *f >= 0)
                 .sum::<i32>()
         })
-        .sum::<i32>()
+        .sum()
 }
 
 #[cfg(test)]
