@@ -19,16 +19,16 @@ fn main() {
 
     match config.part {
         Part::One => match config.day {
-            Day::Day1 => println!("Solution: {}", day1::part1(day1::input())),
-            Day::Day2 => println!("Solution: {}", day2::part1(day2::input())),
-            Day::Day3 => println!("Solution: {}", day3::part1(day3::input())),
+            Day::Day1 => println!("Solution: {}", day1::run_part1()),
+            Day::Day2 => println!("Solution: {}", day2::run_part1()),
+            Day::Day3 => println!("Solution: {}", day3::run_part1()),
             Day::Day4 => println!("Solution: {}", day4::run_part1()),
             _ => panic!("this day is not solved yet!"),
         },
         Part::Two => match config.day {
-            Day::Day1 => println!("Solution: {}", day1::part2(day1::input())),
-            Day::Day2 => println!("Solution: {}", day2::part2(day2::input())),
-            Day::Day3 => println!("Solution: {}", day3::part2(day3::input())),
+            Day::Day1 => println!("Solution: {}", day1::run_part2()),
+            Day::Day2 => println!("Solution: {}", day2::run_part2()),
+            Day::Day3 => println!("Solution: {}", day3::run_part2()),
             Day::Day4 => println!("Solution: {}", day4::run_part2()),
             _ => panic!("this day is not solved yet!"),
         },

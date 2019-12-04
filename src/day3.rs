@@ -1,6 +1,14 @@
 use std::fs;
 
-pub struct Input {
+pub fn run_part1() -> i32 {
+    part1(input())
+}
+
+pub fn run_part2() -> i32 {
+    part2(input())
+}
+
+struct Input {
     line1: Vec<Segment>,
     line2: Vec<Segment>,
 }
@@ -21,7 +29,7 @@ enum Square {
     Cross(i32),
 }
 
-pub fn input() -> Input {
+fn input() -> Input {
     let lines: Vec<Vec<Segment>> = fs::read_to_string("data/day3.txt")
         .expect("Error reading the file")
         .trim()
@@ -147,7 +155,7 @@ fn build_map(input: Input) -> Vec<Vec<Square>> {
     map
 }
 
-pub fn part1(input: Input) -> i32 {
+fn part1(input: Input) -> i32 {
     let map = build_map(input);
     println!("searching");
 
@@ -167,7 +175,7 @@ pub fn part1(input: Input) -> i32 {
     min_dist
 }
 
-pub fn part2(input: Input) -> i32 {
+fn part2(input: Input) -> i32 {
     let map = build_map(input);
     println!("searching");
 

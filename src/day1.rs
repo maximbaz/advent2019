@@ -1,7 +1,15 @@
 use itertools;
 use std::fs;
 
-pub fn input() -> Vec<i32> {
+pub fn run_part1() -> i32 {
+    part1(input())
+}
+
+pub fn run_part2() -> i32 {
+    part2(input())
+}
+
+fn input() -> Vec<i32> {
     fs::read_to_string("data/day1.txt")
         .expect("Error reading the file")
         .trim()
@@ -10,11 +18,11 @@ pub fn input() -> Vec<i32> {
         .collect()
 }
 
-pub fn part1(input: Vec<i32>) -> i32 {
+fn part1(input: Vec<i32>) -> i32 {
     input.iter().map(|f| f / 3 - 2).sum()
 }
 
-pub fn part2(input: Vec<i32>) -> i32 {
+fn part2(input: Vec<i32>) -> i32 {
     input
         .iter()
         .map(|m| {

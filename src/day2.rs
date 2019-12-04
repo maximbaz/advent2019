@@ -1,6 +1,14 @@
 use std::fs;
 
-pub fn input() -> Vec<usize> {
+pub fn run_part1() -> usize {
+    part1(input())
+}
+
+pub fn run_part2() -> usize {
+    part2(input())
+}
+
+fn input() -> Vec<usize> {
     fs::read_to_string("data/day2.txt")
         .expect("Error reading the file")
         .trim()
@@ -9,11 +17,11 @@ pub fn input() -> Vec<usize> {
         .collect()
 }
 
-pub fn part1(input: Vec<usize>) -> usize {
+fn part1(input: Vec<usize>) -> usize {
     solve(input, 12, 2)
 }
 
-pub fn part2(input: Vec<usize>) -> usize {
+fn part2(input: Vec<usize>) -> usize {
     for start1 in 0..99 {
         for start2 in 0..99 {
             if solve(input.clone(), start1, start2) == 19690720 {
