@@ -1,16 +1,13 @@
 use std::fs;
 
 pub fn run_part1() -> i32 {
-    part1(input())
+    let (line1, line2) = input();
+    part1(line1, line2)
 }
 
 pub fn run_part2() -> i32 {
-    part2(input())
-}
-
-struct Input {
-    line1: Vec<Segment>,
-    line2: Vec<Segment>,
+    let (line1, line2) = input();
+    part2(line1, line2)
 }
 
 #[derive(Clone)]
@@ -29,7 +26,9 @@ enum Square {
     Cross(i32),
 }
 
-fn input() -> Input {
+type Line = Vec<Segment>;
+
+fn input() -> (Line, Line) {
     let lines: Vec<Vec<Segment>> = fs::read_to_string("data/day3.txt")
         .expect("Error reading the file")
         .trim()
@@ -47,16 +46,13 @@ fn input() -> Input {
         })
         .collect();
 
-    Input {
-        line1: lines[0].clone(),
-        line2: lines[1].clone(),
-    }
+    (lines[0].clone(), lines[1].clone())
 }
 
 const SIZE: usize = 24000;
 const START: usize = 10000;
 
-fn build_map(input: Input) -> Vec<Vec<Square>> {
+fn build_map(line1: Line, line2: Line) -> Vec<Vec<Square>> {
     println!("allocating");
     let mut map: Vec<Vec<Square>> = vec![vec![Square::Empty; SIZE]; SIZE];
 
@@ -64,7 +60,7 @@ fn build_map(input: Input) -> Vec<Vec<Square>> {
     let mut x = START;
     let mut y = START;
     let mut step = 0;
-    for segment in input.line1 {
+    for segment in line1 {
         match segment {
             Segment::U(n) => {
                 for _i in 0..n {
@@ -103,7 +99,7 @@ fn build_map(input: Input) -> Vec<Vec<Square>> {
     y = START;
     step = 0;
 
-    for segment in input.line2 {
+    for segment in line2 {
         match segment {
             Segment::U(n) => {
                 for _i in 0..n {
@@ -155,8 +151,8 @@ fn build_map(input: Input) -> Vec<Vec<Square>> {
     map
 }
 
-fn part1(input: Input) -> i32 {
-    let map = build_map(input);
+fn part1(line1: Line, line2: Line) -> i32 {
+    let map = build_map(line1, line2);
     println!("searching");
 
     let mut min_dist = 999999999;
@@ -175,8 +171,8 @@ fn part1(input: Input) -> i32 {
     min_dist
 }
 
-fn part2(input: Input) -> i32 {
-    let map = build_map(input);
+fn part2(line1: Line, line2: Line) -> i32 {
+    let map = build_map(line1, line2);
     println!("searching");
 
     let mut min_dist = 999999999;
@@ -203,24 +199,21 @@ mod tests {
     fn test_part1() {
         assert_eq!(
             6,
-            part1(Input {
-                line1: vec![R(8), U(5), L(5), D(3)],
-                line2: vec![U(7), R(6), D(4), L(4)]
-            })
+            part1(vec![R(8), U(5), L(5), D(3)], vec![U(7), R(6), D(4), L(4)])
         );
 
         assert_eq!(
             159,
-            part1(Input {
-                line1: vec![R(75), D(30), R(83), U(83), L(12), D(49), R(71), U(7), L(72)],
-                line2: vec![U(62), R(66), U(55), R(34), D(71), R(55), D(58), R(83)]
-            })
+            part1(
+                vec![R(75), D(30), R(83), U(83), L(12), D(49), R(71), U(7), L(72)],
+                vec![U(62), R(66), U(55), R(34), D(71), R(55), D(58), R(83)]
+            )
         );
 
         assert_eq!(
             135,
-            part1(Input {
-                line1: vec![
+            part1(
+                vec![
                     R(98),
                     U(47),
                     R(26),
@@ -233,7 +226,7 @@ mod tests {
                     U(53),
                     R(51)
                 ],
-                line2: vec![
+                vec![
                     U(98),
                     R(91),
                     D(20),
@@ -245,7 +238,7 @@ mod tests {
                     U(6),
                     R(7)
                 ]
-            })
+            )
         );
     }
 
@@ -253,24 +246,21 @@ mod tests {
     fn test_part2() {
         assert_eq!(
             30,
-            part2(Input {
-                line1: vec![R(8), U(5), L(5), D(3)],
-                line2: vec![U(7), R(6), D(4), L(4)]
-            })
+            part2(vec![R(8), U(5), L(5), D(3)], vec![U(7), R(6), D(4), L(4)])
         );
 
         assert_eq!(
             610,
-            part2(Input {
-                line1: vec![R(75), D(30), R(83), U(83), L(12), D(49), R(71), U(7), L(72)],
-                line2: vec![U(62), R(66), U(55), R(34), D(71), R(55), D(58), R(83)]
-            })
+            part2(
+                vec![R(75), D(30), R(83), U(83), L(12), D(49), R(71), U(7), L(72)],
+                vec![U(62), R(66), U(55), R(34), D(71), R(55), D(58), R(83)]
+            )
         );
 
         assert_eq!(
             410,
-            part2(Input {
-                line1: vec![
+            part2(
+                vec![
                     R(98),
                     U(47),
                     R(26),
@@ -283,7 +273,7 @@ mod tests {
                     U(53),
                     R(51)
                 ],
-                line2: vec![
+                vec![
                     U(98),
                     R(91),
                     D(20),
@@ -295,7 +285,7 @@ mod tests {
                     U(6),
                     R(7)
                 ]
-            })
+            )
         );
     }
 }
