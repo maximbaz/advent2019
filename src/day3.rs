@@ -1,3 +1,4 @@
+use std::collections::HashMap;
 use std::fs;
 
 pub fn run_part1() -> i32 {
@@ -18,9 +19,34 @@ enum Segment {
     R(i32),
 }
 
-#[derive(PartialEq, Clone)]
+impl Segment {
+    fn n(&self) -> i32 {
+        match *self {
+            Segment::U(n) => n,
+            Segment::D(n) => n,
+            Segment::L(n) => n,
+            Segment::R(n) => n,
+        }
+    }
+
+    fn x_offset(&self) -> i32 {
+        match *self {
+            Segment::U(_) => -1,
+            Segment::D(_) => 1,
+            _ => 0,
+        }
+    }
+
+    fn y_offset(&self) -> i32 {
+        match *self {
+            Segment::L(_) => -1,
+            Segment::R(_) => 1,
+            _ => 0,
+        }
+    }
+}
+
 enum Square {
-    Empty,
     Line1(i32),
     Line2,
     Cross(i32),
@@ -49,102 +75,37 @@ fn input() -> (Line, Line) {
     (lines[0].clone(), lines[1].clone())
 }
 
-const SIZE: usize = 24000;
-const START: usize = 10000;
+fn build_map(line1: Line, line2: Line) -> HashMap<(i32, i32), Square> {
+    let mut map = HashMap::new();
 
-fn build_map(line1: Line, line2: Line) -> Vec<Vec<Square>> {
-    println!("allocating");
-    let mut map: Vec<Vec<Square>> = vec![vec![Square::Empty; SIZE]; SIZE];
-
-    println!("calculating");
-    let mut x = START;
-    let mut y = START;
+    let mut x = 0;
+    let mut y = 0;
     let mut step = 0;
     for segment in line1 {
-        match segment {
-            Segment::U(n) => {
-                for _i in 0..n {
-                    x -= 1;
-                    step += 1;
-                    map[x][y] = Square::Line1(step);
-                }
-            }
-            Segment::D(n) => {
-                for _i in 0..n {
-                    x += 1;
-                    step += 1;
-                    map[x][y] = Square::Line1(step);
-                }
-            }
-            Segment::L(n) => {
-                for _i in 0..n {
-                    y -= 1;
-                    step += 1;
-                    map[x][y] = Square::Line1(step);
-                }
-            }
-            Segment::R(n) => {
-                for _i in 0..n {
-                    y += 1;
-                    step += 1;
-                    map[x][y] = Square::Line1(step);
-                }
-            }
+        for _i in 0..segment.n() {
+            x += segment.x_offset();
+            y += segment.y_offset();
+            step += 1;
+            map.insert((x, y), Square::Line1(step));
         }
     }
 
-    println!("steps: {}", step);
-
-    x = START;
-    y = START;
+    x = 0;
+    y = 0;
     step = 0;
 
     for segment in line2 {
-        match segment {
-            Segment::U(n) => {
-                for _i in 0..n {
-                    x -= 1;
-                    step += 1;
-                    map[x][y] = if let Square::Line1(n) = map[x][y] {
-                        Square::Cross(n + step)
-                    } else {
-                        Square::Line2
-                    };
-                }
-            }
-            Segment::D(n) => {
-                for _i in 0..n {
-                    x += 1;
-                    step += 1;
-                    map[x][y] = if let Square::Line1(n) = map[x][y] {
-                        Square::Cross(n + step)
-                    } else {
-                        Square::Line2
-                    };
-                }
-            }
-            Segment::L(n) => {
-                for _i in 0..n {
-                    y -= 1;
-                    step += 1;
-                    map[x][y] = if let Square::Line1(n) = map[x][y] {
-                        Square::Cross(n + step)
-                    } else {
-                        Square::Line2
-                    };
-                }
-            }
-            Segment::R(n) => {
-                for _i in 0..n {
-                    y += 1;
-                    step += 1;
-                    map[x][y] = if let Square::Line1(n) = map[x][y] {
-                        Square::Cross(n + step)
-                    } else {
-                        Square::Line2
-                    };
-                }
-            }
+        for _i in 0..segment.n() {
+            x += segment.x_offset();
+            y += segment.y_offset();
+            step += 1;
+            map.insert(
+                (x, y),
+                match map.get(&(x, y)) {
+                    Some(Square::Line1(n)) => Square::Cross(n + step),
+                    _ => Square::Line2,
+                },
+            );
         }
     }
 
@@ -153,17 +114,14 @@ fn build_map(line1: Line, line2: Line) -> Vec<Vec<Square>> {
 
 fn part1(line1: Line, line2: Line) -> i32 {
     let map = build_map(line1, line2);
-    println!("searching");
 
-    let mut min_dist = 999999999;
+    let mut min_dist = i32::max_value();
 
-    for i in 0..map.len() {
-        for j in 0..map.len() {
-            if let Square::Cross(_) = map[i][j] {
-                let dist = (i as i32 - START as i32).abs() + (j as i32 - START as i32).abs();
-                if dist < min_dist {
-                    min_dist = dist;
-                }
+    for ((i, j), segment) in map {
+        if let Square::Cross(_) = segment {
+            let dist = i.abs() + j.abs();
+            if dist < min_dist {
+                min_dist = dist;
             }
         }
     }
@@ -173,16 +131,13 @@ fn part1(line1: Line, line2: Line) -> i32 {
 
 fn part2(line1: Line, line2: Line) -> i32 {
     let map = build_map(line1, line2);
-    println!("searching");
 
-    let mut min_dist = 999999999;
+    let mut min_dist = i32::max_value();
 
-    for i in 0..map.len() {
-        for j in 0..map.len() {
-            if let Square::Cross(dist) = map[i][j] {
-                if dist < min_dist {
-                    min_dist = dist;
-                }
+    for (_, segment) in map {
+        if let Square::Cross(dist) = segment {
+            if dist < min_dist {
+                min_dist = dist;
             }
         }
     }
