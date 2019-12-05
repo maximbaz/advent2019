@@ -8,6 +8,7 @@ mod day1;
 mod day2;
 mod day3;
 mod day4;
+mod day5;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -23,6 +24,7 @@ fn main() {
             Day::Day2 => println!("Solution: {}", day2::run_part1()),
             Day::Day3 => println!("Solution: {}", day3::run_part1()),
             Day::Day4 => println!("Solution: {}", day4::run_part1()),
+            Day::Day5 => println!("Solution: {}", day5::run_part1()),
             _ => panic!("this day is not solved yet!"),
         },
         Part::Two => match config.day {
@@ -30,6 +32,7 @@ fn main() {
             Day::Day2 => println!("Solution: {}", day2::run_part2()),
             Day::Day3 => println!("Solution: {}", day3::run_part2()),
             Day::Day4 => println!("Solution: {}", day4::run_part2()),
+            Day::Day5 => println!("Solution: {}", day5::run_part2()),
             _ => panic!("this day is not solved yet!"),
         },
     };
