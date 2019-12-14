@@ -13,8 +13,17 @@ impl IntCode {
         }
     }
 
-    pub fn run(self: &mut Self, mut input: impl FnMut() -> i64, mut output: impl FnMut(i64)) {
+    pub fn run(
+        self: &mut Self,
+        mut input: impl FnMut() -> i64,
+        mut output: impl FnMut(i64),
+    ) -> &mut Self {
         while self.step(&mut input, &mut output) != 99 {}
+        self
+    }
+
+    pub fn read_cell(self: &mut Self, addr: usize) -> i64 {
+        *self.cell_abs(addr)
     }
 
     fn cell_abs(self: &mut Self, addr: usize) -> &mut i64 {

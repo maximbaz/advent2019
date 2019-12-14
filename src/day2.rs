@@ -1,14 +1,16 @@
 use std::fs;
 
-pub fn run_part1() -> usize {
+use super::intcode::IntCode;
+
+pub fn run_part1() -> i64 {
     part1(input())
 }
 
-pub fn run_part2() -> usize {
+pub fn run_part2() -> i64 {
     part2(input())
 }
 
-fn input() -> Vec<usize> {
+fn input() -> Vec<i64> {
     fs::read_to_string("data/day2.txt")
         .expect("Error reading the file")
         .trim()
@@ -17,11 +19,11 @@ fn input() -> Vec<usize> {
         .collect()
 }
 
-fn part1(input: Vec<usize>) -> usize {
+fn part1(input: Vec<i64>) -> i64 {
     solve(input, 12, 2)
 }
 
-fn part2(input: Vec<usize>) -> usize {
+fn part2(input: Vec<i64>) -> i64 {
     for start1 in 0..99 {
         for start2 in 0..99 {
             if solve(input.clone(), start1, start2) == 19690720 {
@@ -32,21 +34,11 @@ fn part2(input: Vec<usize>) -> usize {
     unreachable!()
 }
 
-fn solve(mut memory: Vec<usize>, start1: usize, start2: usize) -> usize {
+fn solve(mut memory: Vec<i64>, start1: i64, start2: i64) -> i64 {
     memory[1] = start1;
     memory[2] = start2;
 
-    let mut pos = 0;
-
-    while memory[pos] != 99 {
-        let a = memory[memory[pos + 1]];
-        let b = memory[memory[pos + 2]];
-        let dst = memory[pos + 3];
-        memory[dst] = if memory[pos] == 1 { a + b } else { a * b };
-        pos += 4;
-    }
-
-    return memory[0];
+    IntCode::new(&memory).run(|| 0, |_| {}).read_cell(0)
 }
 
 #[cfg(test)]
