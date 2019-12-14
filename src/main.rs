@@ -4,8 +4,11 @@ use std::process;
 mod config;
 use config::*;
 
+mod intcode;
+
 mod day1;
 mod day10;
+mod day13;
 mod day2;
 mod day3;
 mod day4;
@@ -35,6 +38,7 @@ fn main() {
             Day::Day8 => println!("Solution: {}", day8::run_part1()),
             Day::Day9 => println!("Solution: {}", day9::run_part1()),
             Day::Day10 => println!("Solution: {}", day10::run_part1()),
+            Day::Day13 => println!("Solution: {}", day13::run_part1()),
             _ => panic!("this day is not solved yet!"),
         },
         Part::Two => match config.day {
@@ -48,6 +52,7 @@ fn main() {
             Day::Day8 => println!("Solution: {}", day8::run_part2()),
             Day::Day9 => println!("Solution: {}", day9::run_part2()),
             Day::Day10 => println!("Solution: {}", day10::run_part2()),
+            Day::Day13 => println!("Solution: {}", day13::run_part2()),
             _ => panic!("this day is not solved yet!"),
         },
     };
