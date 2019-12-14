@@ -5,14 +5,16 @@ pub fn run_part1() -> usize {
 }
 
 pub fn run_part2() -> String {
-    part2(input(), 25, 6)
-        .iter()
-        .map(|c| if *c == 1 { "❚" } else { " " })
-        .collect::<Vec<&str>>()
-        .chunks(25)
-        .fold("".to_string(), |acc, line| {
-            format!("{}\n{}", acc, line.to_vec().join(""))
-        })
+    "\n".to_owned()
+        + &part2(input(), 25, 6)
+            .chunks(25)
+            .map(|line| {
+                line.iter()
+                    .map(|&c| if c == 1 { '▅' } else { ' ' })
+                    .collect()
+            })
+            .collect::<Vec<String>>()
+            .join("\n")
 }
 
 fn input() -> Vec<u32> {
