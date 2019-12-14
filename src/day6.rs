@@ -19,12 +19,13 @@ fn read_file() -> String {
 }
 
 fn input<'a>(data: &'a String) -> Input<'a> {
-    data.trim().lines().map(split).collect()
-}
-
-fn split(s: &str) -> Pair {
-    let parts = s.split(")").collect::<Vec<_>>();
-    (parts[0], parts[1])
+    data.trim()
+        .lines()
+        .map(|s| {
+            let parts = s.split(")").collect::<Vec<_>>();
+            (parts[0], parts[1])
+        })
+        .collect()
 }
 
 fn build_graph(input: Input, bi_directional: bool) -> Graph {
@@ -94,19 +95,22 @@ mod tests {
     fn test_part1() {
         assert_eq!(
             42,
-            part1(vec![
-                split("COM)B"),
-                split("B)C"),
-                split("C)D"),
-                split("D)E"),
-                split("E)F"),
-                split("B)G"),
-                split("G)H"),
-                split("D)I"),
-                split("E)J"),
-                split("J)K"),
-                split("K)L"),
-            ])
+            part1(input(
+                &"
+COM)B
+B)C
+C)D
+D)E
+E)F
+B)G
+G)H
+D)I
+E)J
+J)K
+K)L
+"
+                .to_owned()
+            ))
         );
     }
 
@@ -114,21 +118,24 @@ mod tests {
     fn test_part2() {
         assert_eq!(
             4,
-            part2(vec![
-                split("COM)B"),
-                split("B)C"),
-                split("C)D"),
-                split("D)E"),
-                split("E)F"),
-                split("B)G"),
-                split("G)H"),
-                split("D)I"),
-                split("E)J"),
-                split("J)K"),
-                split("K)L"),
-                split("K)YOU"),
-                split("I)SAN"),
-            ])
+            part2(input(
+                &"
+COM)B
+B)C
+C)D
+D)E
+E)F
+B)G
+G)H
+D)I
+E)J
+J)K
+K)L
+K)YOU
+I)SAN
+"
+                .to_owned()
+            ))
         );
     }
 }
